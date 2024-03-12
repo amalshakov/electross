@@ -1,0 +1,26 @@
+{% extends 'base.html' %}
+
+{% block content %}
+  <hr />
+  <h1>Главная страница сайта</h1>
+  <ul class="list-posts">
+    {% if 'user_id' in session %}
+      <li>
+        <p class="title">
+          <a href="{{ url_for('logout') }}">Выйти</a>
+        </p>
+      </li>
+    {% else %}
+      <li>
+        <p class="title">
+          <a href="{{ url_for('register') }}">Зарегистрироваться</a>
+        </p>
+      </li>
+      <li>
+        <p class="title">
+          <a href="{{ url_for('login') }}">Войти</a>
+        </p>
+      </li>
+    {% endif %}
+  </ul>
+{% endblock %}
