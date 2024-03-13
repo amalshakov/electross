@@ -64,11 +64,11 @@ flask db upgrade
         - Вывод информации о конкретном экземпляре класса Cat.
 
 # Технологии:
-Flask-Bcrypt==1.0.1
-Flask-SQLAlchemy==3.1.1
-Flask==3.0.2
-mysqlclient==2.2.4
-Flask-Login==0.6.3
-Flask-Migrate==4.0.6
-Flask-MySQLdb==2.0.0
-Flask-Script==2.0.6
+- Flask-Bcrypt==1.0.1
+- Flask-SQLAlchemy==3.1.1
+- Flask==3.0.2
+- mysqlclient==2.2.4
+- Flask-Login==0.6.3
+- Flask-Migrate==4.0.6
+- Flask-MySQLdb==2.0.0
+- Flask-Script==2.0.6
