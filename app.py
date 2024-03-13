@@ -1,7 +1,6 @@
 from flask import (
     Flask,
     flash,
-    jsonify,
     redirect,
     render_template,
     request,
@@ -9,13 +8,7 @@ from flask import (
     url_for,
 )
 from flask_bcrypt import Bcrypt
-from flask_login import (
-    LoginManager,
-    current_user,
-    login_required,
-    login_user,
-    logout_user,
-)
+from flask_login import current_user
 from flask_migrate import Migrate
 from flask_sqlalchemy import SQLAlchemy
 
@@ -57,11 +50,10 @@ class Cat(db.Model):
     description = db.Column(db.Text)
     owner_id = db.Column(db.Integer, db.ForeignKey("user.id"), nullable=False)
 
-    # owner = db.relationship("User", backref="cats")
-
 
 @app.route("/edit_cat/<int:cat_id>", methods=["GET", "POST"])
 def edit_cat(cat_id):
+    """Редактировать созданный экземпляр класса Cat."""
     cat = Cat.query.get(cat_id)
 
     if request.method == "POST":
@@ -79,6 +71,7 @@ def edit_cat(cat_id):
 
 @app.route("/delete_cat/<int:cat_id>", methods=["DELETE"])
 def delete_cat(cat_id):
+    """Удалить созданный экземпляр класса Cat."""
     cat = Cat.query.get(cat_id)
     db.session.delete(cat)
     db.session.commit()
@@ -87,6 +80,7 @@ def delete_cat(cat_id):
 
 @app.route("/add_cat", methods=["POST"])
 def add_cat():
+    """Создать экземпляр класса Cat."""
     name = request.form["name"]
     color = request.form["color"]
     birth_day = request.form["birth_day"]
@@ -108,6 +102,7 @@ def add_cat():
 
 @app.route("/cats/<int:cat_id>")
 def cat(cat_id):
+    """Предоставляет информацию о конкретном объекте класса Cat."""
     cat = Cat.query.get(cat_id)
     return render_template("cat.html", cat=cat, title=cat.name)
 
