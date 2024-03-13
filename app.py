@@ -49,10 +49,74 @@ class User(db.Model):
         return self.username
 
 
+class Cat(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    name = db.Column(db.String(50), nullable=False)
+    color = db.Column(db.String(20), nullable=False)
+    birth_day = db.Column(db.Date, nullable=False)
+    description = db.Column(db.Text)
+    owner_id = db.Column(db.Integer, db.ForeignKey("user.id"), nullable=False)
+
+    # owner = db.relationship("User", backref="cats")
+
+
+@app.route("/edit_cat/<int:cat_id>", methods=["GET", "POST"])
+def edit_cat(cat_id):
+    cat = Cat.query.get(cat_id)
+
+    if request.method == "POST":
+        cat.name = request.form["name"]
+        cat.color = request.form["color"]
+        cat.birth_day = request.form["birth_day"]
+        cat.description = request.form["description"]
+        db.session.commit()
+        return redirect(url_for("index"))
+
+    return render_template(
+        "edit_cat.html", cat=cat, title="Редактирование кота"
+    )
+
+
+@app.route("/delete_cat/<int:cat_id>", methods=["DELETE"])
+def delete_cat(cat_id):
+    cat = Cat.query.get(cat_id)
+    db.session.delete(cat)
+    db.session.commit()
+    return redirect(url_for("index"))
+
+
+@app.route("/add_cat", methods=["POST"])
+def add_cat():
+    name = request.form["name"]
+    color = request.form["color"]
+    birth_day = request.form["birth_day"]
+    description = request.form["description"]
+    owner_id = request.form["owner_id"]
+
+    new_cat = Cat(
+        name=name,
+        color=color,
+        birth_day=birth_day,
+        description=description,
+        owner_id=owner_id,
+    )
+    db.session.add(new_cat)
+    db.session.commit()
+
+    return redirect(url_for("index"))
+
+
+@app.route("/cats/<int:cat_id>")
+def cat(cat_id):
+    cat = Cat.query.get(cat_id)
+    return render_template("cat.html", cat=cat, title=cat.name)
+
+
 @app.route("/")
 def index():
     """Главная страница."""
-    return render_template("index.html", title="Главная страница")
+    cats = Cat.query.all()
+    return render_template("index.html", title="Главная страница", cats=cats)
 
 
 @app.route("/register", methods=["POST", "GET"])
@@ -96,6 +160,7 @@ def login():
 
 @app.route("/logout")
 def logout():
+    """Выход из системы."""
     session.pop("user_id", None)
     return render_template("logout.html", title="Вы вышли")
 

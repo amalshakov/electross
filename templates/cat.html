@@ -1,0 +1,24 @@
+{% extends 'base.html' %}
+
+{% block content %}
+  <h1>{{ cat.name }}</h1>
+  <p>Цвет: {{ cat.color }}</p>
+  <p>День рождения: {{ cat.birth_day }}</p>
+  <p>Описание: {{ cat.description }}</p>
+  {% if session['user_id'] == cat.owner_id %}
+    <a href="{{ url_for('delete_cat', cat_id = cat.id) }}">Редактировать кота</a>
+    <form id="deleteForm" action="{{ url_for('delete_cat', cat_id = cat.id) }}" method="POST">
+      <button type="button" onclick="deleteCat()">Удалить кота</button>
+    </form>
+    <script>
+      function deleteCat() {
+        fetch("{{ url_for('delete_cat', cat_id = cat.id) }}", {
+          method: 'DELETE'
+        }).then((response) => {
+          window.location.href = '{{ url_for("index") }}'
+        })
+      }
+    </script>
+  {% endif %}
+  <a href="/">На главную</a>
+{% endblock %}

@@ -1,0 +1,27 @@
+{% extends 'base.html' %}
+
+{% block content %}
+  <h1>Редактирование кота</h1>
+  <form method="post">
+    <label for="name">Имя:</label>
+    <input type="text" id="name" name="name" value="{{ cat.name }}" /><br /><br />
+
+    <label for="color">Цвет:</label>
+    <select id="color" name="color">
+      <option value="белый" {% if cat.color == 'белый' %} selected {% endif %}>Белый</option>
+      <option value="черный" {% if cat.color == 'черный' %} selected {% endif %}>Черный</option>
+      <option value="рыжий" {% if cat.color == 'рыжий' %} selected {% endif %}>Рыжий</option>
+      <option value="серый" {% if cat.color == 'серый' %} selected {% endif %}>Серый</option>
+      <option value="разноцветный" {% if cat.color == 'разноцветный' %} selected {% endif %}>Разноцветный</option>
+    </select><br /><br />
+
+    <label for="birth_day">День рождения:</label>
+    <input type="text" id="birth_day" name="birth_day" value="{{ cat.birth_day }}" /><br /><br />
+
+    <label for="descrition">Описание:</label>
+    <input type="text" id="description" name="description" value="{{ cat.description }}" /><br /><br />
+
+    <input type="submit" value="Сохранить" />
+  </form>
+  <a href="/">На главную</a>
+{% endblock %}

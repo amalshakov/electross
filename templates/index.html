@@ -23,4 +23,39 @@
       </li>
     {% endif %}
   </ul>
+  {% if 'user_id' in session %}
+    <h1>Добавить кота</h1>
+    <div class="container">
+      <form method="post" action="/add_cat">
+        <label for="name">Имя кота:</label><br />
+        <input type="text" id="name" name="name" required /><br /><br />
+
+        <label for="color">Цвет кота:</label><br />
+        <select id="color" name="color">
+          <option value="белый">Белый</option>
+          <option value="черный">Черный</option>
+          <option value="рыжий">Рыжий</option>
+          <option value="серый">Серый</option>
+          <option value="разноцветный">Разноцветный</option>
+        </select><br /><br />
+
+        <label for="birth_day">Дата рождения:</label><br />
+        <input type="date" id="birth_day" name="birth_day" required /><br /><br />
+
+        <label for="description">Описание кота:</label><br />
+        <textarea id="description" name="description"></textarea><br /><br />
+
+        <input type="hidden" id="owner_id" name="owner_id" value="{{ session['user_id'] }}" />
+
+        <input type="submit" value="Добавить кота" />
+      </form>
+    </div>
+  {% endif %}
+  <ul>
+    {% for cat in cats %}
+      <li>
+        <a href="{{ url_for('cat', cat_id = cat.id) }}">{{ cat.name }}</a> - {{ cat.color }} - {{ cat.birth_day }}
+      </li>
+    {% endfor %}
+  </ul>
 {% endblock %}
