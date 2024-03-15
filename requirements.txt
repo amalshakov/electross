@@ -6,3 +6,4 @@ Flask-Login==0.6.3
 Flask-Migrate==4.0.6
 Flask-MySQLdb==2.0.0
 Flask-Script==2.0.6
+pymysql==1.1.0

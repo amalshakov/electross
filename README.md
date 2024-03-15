@@ -72,3 +72,25 @@ flask db upgrade
 - Flask-Migrate==4.0.6
 - Flask-MySQLdb==2.0.0
 - Flask-Script==2.0.6
+
+# Запуск локально c локальной MySQL
+- app.config.from_pyfile("config.py")
+
+# Запуск на pythonanywhere.com c MySQL
+- https://docs.google.com/document/d/1dUdxvvzTsHr5pNZ0UZmjD92yoHshmqvePVdrh6mlavU/edit?pli=1#heading=h.pjlds4jwmyzk
+- https://docs.google.com/document/d/1I-u3xEnfjRc2ClWxtNy8lE0Sm2K9UMxRGBprJ4YwDeY/edit?pli=1#heading=h.73h4paph2n9g
+- https://help.pythonanywhere.com/pages/Virtualenvs
+- https://www.pythonanywhere.com/batteries_included/
+- Выше инструкции по которым делать
+- 1. Через git залить проект на pythonanywhere
+- 2. Сделать дамп базы и разместить на pythonanywhere. Настроить
+- 3. Виртуальное окружение. Установить зависимости.
+- 4. Внести изменения в app.py
+- app = Flask(__name__)
+- app.config["SECRET_KEY"] = "qwerty123QWERTY321"
+- userpass = "mysql://morongod:mysqlpsw@"
+- basedir = "morongod.mysql.pythonanywhere-services.com"
+- dbname = "/morongod$electross_db"
+- app.config["SQLALCHEMY_DATABASE_URI"] = userpass + basedir + dbname
+- app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = True
+- db = SQLAlchemy(app)
